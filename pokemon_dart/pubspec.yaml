@@ -1,0 +1,11 @@
+name: pokemon_dart
+description: Pokemon Shared Code between Flutter and AngularDart
+version: 0.0.1
+
+environment:
+  sdk: '>=2.1.0 <3.0.0'
+
+dependencies:
+  meta: ^1.1.7
+  http: ^0.12.0+1
+  rxdart: ^0.20.0
