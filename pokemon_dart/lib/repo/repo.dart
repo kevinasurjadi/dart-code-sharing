@@ -9,11 +9,11 @@ class PokemonRepo extends PokemonClient {
 
   Future<List<Pokemon>> getAll() async {
     final response = await httpGet();
-    final List<Map<String, dynamic>> results = json.decode(response.body);
+    final Map<String, dynamic> results = json.decode(response.body);
 
     if (response.statusCode == 200) {
       List<Pokemon> listPokemon = List();
-      results.map((element) => listPokemon.add(Pokemon.fromJson(element)));
+      results["results"].forEach((element) => listPokemon.add(Pokemon.fromJson(element)));
       return listPokemon;
     } else {
       throw "ERROR";
