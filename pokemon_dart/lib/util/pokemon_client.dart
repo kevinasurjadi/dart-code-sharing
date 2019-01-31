@@ -14,12 +14,7 @@ abstract class PokemonClient {
         this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
     var uriPath = path != null ? _endpoint + path : _endpoint;
     String _uriPath = uriPath.endsWith("/") ? uriPath : uriPath + "/";
-    return Uri(
-      scheme: apiUri.scheme,
-      host: apiUri.host,
-      path: _uriPath,
-      queryParameters: params,
-    ).toString();
+    return baseUrl + _uriPath;
   }
 
   Future<http.Response> httpGet(
