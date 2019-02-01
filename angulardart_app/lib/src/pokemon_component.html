@@ -1,0 +1,24 @@
+<div class="material-content">
+    <header class="material-header shadow">
+        <div class="material-header-row">
+            <span class="material-header-title">Pokemon</span>
+            <div class="material-spacer"></div>
+        </div>
+    </header>
+    <div class="loading">
+        <material-spinner *ngIf="isLoading"></material-spinner>
+    </div>
+    <section>
+        <material-list *ngIf="listPokemon !== null">
+            <material-list-item *ngFor="let pokemon of listPokemon">
+                <div class="mdc-card mdc-card--outlined demo-size">
+                    <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"></div>
+                    <div class="demo-card__primary">
+                        <h2 class="demo-card__title">{{pokemon.name}}</h2>
+                        <h3 class="demo-card__subtitle">{{pokemon.url}}</h3>
+                    </div>
+                </div>
+            </material-list-item>
+        </material-list>
+    </section>
+</div>
