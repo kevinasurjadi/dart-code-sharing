@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_dart/bloc.dart';
-import 'package:pokemon_dart/repo/model.dart';
-import 'package:pokemon_dart/repo/repo.dart';
+import 'package:core_app/core.dart';
+import 'package:flutter_app/widgets/base_widget.dart';
 
 class FlutterApp extends StatelessWidget {
   @override
@@ -14,11 +13,7 @@ class FlutterApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  final PokemonBloc _pokemonBloc = PokemonBloc(PokemonRepo());
-
-  HomePage() {
-    _pokemonBloc.retrievePokemon();
-  }
+  final PokemonListBloc _pokemonListBloc = PokemonListBloc(PokemonRepo());
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +21,10 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Pokemon"),
       ),
-      body: StreamBuilder<List<Pokemon>>(
-          stream: _pokemonBloc.listPokemon,
+      body: BaseWidget(
+        _pokemonListBloc as BaseBloc,
+        body: StreamBuilder<List<Pokemon>>(
+          stream: _pokemonListBloc.listPokemon,
           builder:
               (BuildContext context, AsyncSnapshot<List<Pokemon>> snapshot) {
             if (snapshot.hasData) {
@@ -35,29 +32,18 @@ class HomePage extends StatelessWidget {
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (BuildContext context, int index) => Card(
-                        child: ListTile(
-                          title: Text(
-                            snapshot.data[index].name,),
-                          subtitle: Text(snapshot.data[index].url),
-                        ),
-                      ),
+                    child: ListTile(
+                      title: Text(
+                        snapshot.data[index].name,),
+                      subtitle: Text(snapshot.data[index].url),
+                    ),
+                  ),
                 ),
               );
             } else {
-              if (!snapshot.hasError) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  default:
-                    return Container();
-                }
-              } else {
-                return Container();
-              }
+              return Container();
             }
-          }),
+          }),),
     );
   }
 }

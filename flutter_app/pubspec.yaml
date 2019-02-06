@@ -19,8 +19,8 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
-  pokemon_dart:
-    path: ../pokemon_dart
+  core_app:
+    path: ../core_app
 
 dev_dependencies:
   flutter_test:
