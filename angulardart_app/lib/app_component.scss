@@ -1,0 +1,15 @@
+.app-content{
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  flex-grow: 1;
+}
+.container{
+  width: 900px;
+  margin: 0 auto;
+  padding: 5vw;
+}
+.component-title{
+  text-align: center;
+}

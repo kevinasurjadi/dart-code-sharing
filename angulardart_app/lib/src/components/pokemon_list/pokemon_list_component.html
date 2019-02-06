@@ -5,12 +5,10 @@
             <div class="material-spacer"></div>
         </div>
     </header>
-    <div class="loading">
-        <material-spinner *ngIf="isLoading"></material-spinner>
-    </div>
+    <base-component></base-component>
     <section>
-        <material-list *ngIf="listPokemon !== null">
-            <material-list-item *ngFor="let pokemon of listPokemon">
+        <material-list *ngIf="((pokemonBloc.listPokemon | async) != null)">
+            <material-list-item *ngFor="let pokemon of (pokemonBloc.listPokemon | async)">
                 <div class="mdc-card mdc-card--outlined demo-size">
                     <div class="mdc-card__media mdc-card__media--16-9 demo-card__media"></div>
                     <div class="demo-card__primary">

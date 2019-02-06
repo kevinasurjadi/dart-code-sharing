@@ -1,0 +1,16 @@
+<div *ngIf="(baseBloc.isLoading | async) == true" class="center margin-top-xs">
+    <material-spinner></material-spinner>
+</div>
+<modal [visible]="(baseBloc.errorMessage | async) != ''">
+    <material-dialog class="basic-dialog">
+        <h1 header>Error</h1>
+        <p>
+            {{baseBloc.errorMessage | async}}
+        </p>
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="baseBloc.setErrorMessage('')">
+                OK
+            </material-button>
+        </div>
+    </material-dialog>
+</modal>
