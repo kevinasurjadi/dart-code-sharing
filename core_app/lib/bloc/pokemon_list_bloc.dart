@@ -1,6 +1,6 @@
-import 'package:pokemon_dart/bloc/base_bloc.dart';
-import 'package:pokemon_dart/repo/pokemon.dart';
-import 'package:pokemon_dart/repo/pokemon_repo.dart';
+import 'package:core_app/bloc/base_bloc.dart';
+import 'package:core_app/repo/pokemon.dart';
+import 'package:core_app/repo/pokemon_repo.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PokemonListBloc extends BaseBloc {
