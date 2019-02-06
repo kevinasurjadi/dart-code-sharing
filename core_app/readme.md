@@ -1,6 +1,6 @@
-# <img src="https://avatars0.githubusercontent.com/u/1609975?s=280&v=4" width="80" height="80"> Pokemon Dart
+# <img src="https://avatars0.githubusercontent.com/u/1609975?s=280&v=4" width="80" height="80"> Dart Core App
 
-Pokemon Dart Code for Code Sharing Flutter and AngularDart
+Dart Code for Code Sharing Flutter and AngularDart
 
 ## Getting Started
 

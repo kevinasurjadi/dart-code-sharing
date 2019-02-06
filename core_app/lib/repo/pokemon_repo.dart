@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:pokemon_dart/repo/model.dart';
+import 'package:pokemon_dart/repo/pokemon.dart';
 import 'package:pokemon_dart/util/pokemon_client.dart';
 
 class PokemonRepo extends PokemonClient {

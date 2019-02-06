@@ -1,5 +1,5 @@
-name: pokemon_dart
-description: Pokemon Shared Code between Flutter and AngularDart
+name: core_app
+description: Shared Code between Flutter and AngularDart
 version: 0.0.1
 
 environment:
