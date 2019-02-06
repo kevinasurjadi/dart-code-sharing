@@ -9,7 +9,6 @@ abstract class PokemonClient {
   String get endpoint;
 
   String getURL({String path, Map<String, String> params}) {
-    var apiUri = Uri.parse(baseUrl);
     String _endpoint =
         this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
     var uriPath = path != null ? _endpoint + path : _endpoint;

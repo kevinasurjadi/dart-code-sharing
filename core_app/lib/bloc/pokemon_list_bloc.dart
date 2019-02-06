@@ -28,7 +28,9 @@ class PokemonListBloc extends BaseBloc {
       });
   }
 
+  @override
   void dispose() {
     _listPokemonCtrl.close();
+    super.dispose();
   }
 }
