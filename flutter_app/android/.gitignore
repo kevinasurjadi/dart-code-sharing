@@ -1,0 +1,16 @@
+*.iml
+*.class
+.gradle
+/local.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+GeneratedPluginRegistrant.java
+/app/.settings/org.eclipse.buildship.core.prefs
+/.project
+/.settings/org.eclipse.buildship.core.prefs
+/app/.classpath
+/app/.project
+/app/.settings/org.eclipse.jdt.core.prefs

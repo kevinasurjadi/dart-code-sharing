@@ -24,26 +24,28 @@ class HomePage extends StatelessWidget {
       body: BaseWidget(
         _pokemonListBloc as BaseBloc,
         body: StreamBuilder<List<Pokemon>>(
-          stream: _pokemonListBloc.listPokemon,
-          builder:
-              (BuildContext context, AsyncSnapshot<List<Pokemon>> snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                child: ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (BuildContext context, int index) => Card(
-                    child: ListTile(
-                      title: Text(
-                        snapshot.data[index].name,),
-                      subtitle: Text(snapshot.data[index].url),
-                    ),
+            stream: _pokemonListBloc.listPokemon,
+            builder:
+                (BuildContext context, AsyncSnapshot<List<Pokemon>> snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                  child: ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) => Card(
+                          child: ListTile(
+                            title: Text(
+                              snapshot.data[index].name,
+                            ),
+                            subtitle: Text(snapshot.data[index].url),
+                          ),
+                        ),
                   ),
-                ),
-              );
-            } else {
-              return Container();
-            }
-          }),),
+                );
+              } else {
+                return Container();
+              }
+            }),
+      ),
     );
   }
 }
