@@ -8,7 +8,9 @@ environment:
 dependencies:
   meta: ^1.1.6
   http: ^0.12.0+1
-  rxdart: ^0.18.0
-  async_resource: ^0.1.0
+  rxdart: ^0.20.0
+  async_resource:
+    git:
+      url: https://github.com/iqbalmineraltown/async_resource.git
   get_it: ^1.0.2
 
