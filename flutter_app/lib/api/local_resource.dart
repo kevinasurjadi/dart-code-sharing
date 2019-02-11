@@ -6,6 +6,6 @@ import 'package:core_app/core.dart';
 class FlutterLocalResource implements CustomLocalResource {
   @override
   LocalResource<String> getResourceInstance(String key) {
-    return StringPrefsResource(key, saveLastModified: true);
+    return StringMmkvResource(key, saveLastModified: true);
   }
 }
