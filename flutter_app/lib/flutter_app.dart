@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
       ),
       body: RefreshIndicator(
         child: BaseWidget(
-          _pokemonListBloc as BaseBloc,
+          _pokemonListBloc,
           body: StreamBuilder<List<Pokemon>>(
               stream: _pokemonListBloc.listPokemon,
               builder: (BuildContext context,
