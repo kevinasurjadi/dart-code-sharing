@@ -1,5 +1,4 @@
-import 'package:core_app/api/base/local_resource.dart';
-import 'package:core_app/service_locator.dart';
+import 'package:core_app/core.dart';
 
 import 'web_local_resource.dart';
 

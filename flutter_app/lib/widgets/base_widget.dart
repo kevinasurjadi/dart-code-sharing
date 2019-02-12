@@ -1,5 +1,5 @@
-import 'package:core_app/core.dart';
 import 'package:flutter/material.dart';
+import 'package:core_app/core.dart';
 import 'package:flutter_app/widgets/loading_widget.dart';
 
 class BaseWidget extends StatefulWidget {
@@ -58,5 +58,4 @@ class _BaseWidgetState extends State<BaseWidget> {
     widget.baseBloc.dispose();
     super.dispose();
   }
-
 }

@@ -1,7 +1,6 @@
-
 import 'package:async_resource/async_resource.dart';
 import 'package:async_resource/browser_resource.dart';
-import 'package:core_app/api/base/local_resource.dart';
+import 'package:core_app/core.dart';
 
 class WebLocalResource implements CustomLocalResource {
   @override
