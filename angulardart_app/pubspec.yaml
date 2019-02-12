@@ -13,6 +13,9 @@ dependencies:
   sass_builder: ^2.1.2
   core_app:
     path: ../core_app
+  async_resource:
+    git:
+      url: https://github.com/iqbalmineraltown/async_resource.git
 
 dev_dependencies:
   angular_test: ^2.2.0

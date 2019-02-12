@@ -4,28 +4,24 @@ import 'package:core_app/repo/pokemon_repo.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PokemonListBloc extends BaseBloc {
-
   PokemonRepo _pokemonRepo;
 
   PokemonListBloc(this._pokemonRepo) {
-    _retrievePokemon();
+    retrievePokemon();
   }
 
-  final BehaviorSubject<List<Pokemon>> _listPokemonCtrl = BehaviorSubject<List<Pokemon>>();
+  final BehaviorSubject<List<Pokemon>> _listPokemonCtrl =
+      BehaviorSubject<List<Pokemon>>();
 
   Stream<List<Pokemon>> get listPokemon => _listPokemonCtrl.stream;
   Sink<List<Pokemon>> get pokemon => _listPokemonCtrl.sink;
 
-  void _retrievePokemon() {
+  Future<void> retrievePokemon() async {
     showLoading(true);
-    _pokemonRepo.getAll()
-      .then((listPokemon) {
-        pokemon.add(listPokemon);
-        showLoading(false);
-      }, onError: (err) {
-        setErrorMessage(err.toString());
-        showLoading(false);
-      });
+    var listPokemon = await _pokemonRepo.getAll();
+    pokemon.add(listPokemon);
+    showLoading(false);
+    return;
   }
 
   @override
