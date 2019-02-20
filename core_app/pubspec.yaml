@@ -3,7 +3,7 @@ description: Shared Code between Flutter and AngularDart
 version: 0.0.1
 
 environment:
-  sdk: '>=2.0.0-dev.68.0 <3.0.0'
+  sdk: ">=2.0.0-dev.68.0 <3.0.0"
 
 dependencies:
   meta: ^1.1.6
@@ -12,5 +12,9 @@ dependencies:
   get_it: ^1.0.2
   async_resource:
     git:
-      url: https://github.com/iqbalmineraltown/async_resource.git
+      url: git@gitlab.com:ovaltech/async_resource.git
+      ref: v0.2.1
 
+dev_dependencies:
+  test: ^1.5.3
+  mockito: ^4.0.0
