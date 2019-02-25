@@ -5,7 +5,7 @@ description: A web app that uses AngularDart Components
 # author: kevinalexandersurjadi <email@example.com>
 
 environment:
-  sdk: '>=2.1.0 <3.0.0'
+  sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
   angular: ^5.2.0
@@ -15,7 +15,8 @@ dependencies:
     path: ../core_app
   async_resource:
     git:
-      url: https://github.com/iqbalmineraltown/async_resource.git
+      url: git@gitlab.com:ovaltech/async_resource.git
+      ref: v0.2.1
 
 dev_dependencies:
   angular_test: ^2.2.0
