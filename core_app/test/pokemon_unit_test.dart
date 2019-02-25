@@ -38,12 +38,15 @@ void main() {
 
   group('Pokemon API Test', () {
     CoreServiceLocator.instance.reset();
-    // mock write cache
-    when(_resource.write(any)).thenAnswer((_) => Future.value(successResponse));
+
     // mock local resource
     when(_localResource.getResourceInstance(any)).thenReturn(_resource);
     _serviceLocator.registerSingleton<CustomLocalResource>(_localResource);
     test('Success - Network', () async {
+      // mock write cache
+      when(_resource.write(any))
+          .thenAnswer((_) => Future.value(successResponse));
+
       var api = PokemonRepo();
       api.client = MockClient((request) async {
         return http.Response(successResponse, 200);
@@ -84,7 +87,7 @@ void main() {
     });
 
     test('Failed - Failed Network Cache Invalid', () async {
-      /// cache invalid
+      /// mock cache invalid
       when(_resource.get()).thenAnswer((_) => null);
 
       var api = PokemonRepo();
