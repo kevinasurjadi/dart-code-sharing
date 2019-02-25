@@ -8,9 +8,7 @@ import 'dart:convert';
 import 'package:async_resource/async_resource.dart';
 import 'package:core_app/api/base/local_resource.dart';
 import 'package:core_app/service_locator.dart';
-import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 
 /// HTTP Request method as enum for integrity
 enum HttpMethod {
@@ -26,7 +24,7 @@ const int minimumNonSuccessCode = 400;
 /// Base class for http request with helper
 abstract class BaseHttpRequest {
   static int _requestId = 0;
-  var client = http.Client();
+  var client = Client();
 
   String get baseUrl;
 
@@ -101,7 +99,7 @@ abstract class HttpRequest extends BaseHttpRequest {
 
     var uri = generateUri(baseUrl, relativePath, params);
 
-    var request = http.Request(httpMethod, uri);
+    var request = Request(httpMethod, uri);
 
     if (headers != null) {
       baseHeaders.addAll(headers);
@@ -141,7 +139,7 @@ abstract class HttpRequest extends BaseHttpRequest {
       return;
     });
 
-    var response = await http.Response.fromStream(req);
+    var response = await Response.fromStream(req);
 
     postResponseLog(currentRequestId, timer,
         "[$currentRequestId] < ${response.statusCode} ${response.body}");
@@ -170,15 +168,13 @@ abstract class HttpGetWithCache extends BaseHttpRequest {
       combinedHeaders.addAll(headers);
     }
 
-    String response;
     CustomLocalResource localResource =
         CoreServiceLocator.instance<CustomLocalResource>();
     var myDataResource = CustomHttpNetworkResource<String>(
       url: uri.toString(),
       headers: combinedHeaders,
-      parser: (content) {
-        response = content;
-      },
+      client: client,
+      parser: (content) => content.toString(),
       cache: localResource
           .getResourceInstance('${uri.toString().replaceAll("/", "|")}'),
       maxAge: maxCacheAge,
@@ -192,8 +188,9 @@ abstract class HttpGetWithCache extends BaseHttpRequest {
     preRequestLog(currentRequestId, timer,
         "[$currentRequestId] > GET with cache ${uri.toString()}");
 
-    await myDataResource.get(forceReload: forceReload).timeout(timeout,
-        onTimeout: () {
+    var response = await myDataResource
+        .get(forceReload: forceReload)
+        .timeout(timeout, onTimeout: () {
       postResponseLog(
           requestId, timer, "[$requestId] < Timeout after ${timeout}s!");
       return;
@@ -205,55 +202,6 @@ abstract class HttpGetWithCache extends BaseHttpRequest {
   }
 }
 
-/// based on HttpNetworkResource
-class CustomHttpNetworkResource<T> extends NetworkResource<T> {
-  CustomHttpNetworkResource(
-      {@required String url,
-      @required LocalResource<T> cache,
-      Duration maxAge,
-      CacheStrategy strategy,
-      Parser parser,
-      this.client,
-      this.headers,
-      this.binary: false,
-      @required this.responseHandler})
-      : assert(binary != null),
-        super(
-            url: url,
-            cache: cache,
-            maxAge: maxAge,
-            strategy: strategy,
-            parser: parser);
-
-  /// Optional. The [http.Client] to use, recommended if frequently hitting
-  /// the same server. If not specified, [http.get()] will be used instead.
-  final http.Client client;
-
-  /// Optional. The HTTP headers to send with the request.
-  final Map<String, String> headers;
-
-  /// Whether the underlying data is binary or string-based.
-  final bool binary;
-
-  Function(Response) responseHandler;
-
-  /// retrieve full response after get
-
-  @override
-  Future<dynamic> fetchContents() async {
-    final response = await (client == null
-        ? http.get(url, headers: headers)
-        : client.get(url, headers: headers));
-
-    responseHandler(response);
-
-    return (response != null)
-        ? (binary ? response.bodyBytes : response.body)
-        : null;
-  }
-}
-
-/// Extend this class to create more specific exception
 class BaseHttpException implements Exception {
   final String message;
 

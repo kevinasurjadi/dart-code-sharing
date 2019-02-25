@@ -13,7 +13,7 @@ dependencies:
   async_resource:
     git:
       url: git@gitlab.com:ovaltech/async_resource.git
-      ref: v0.2.1
+      ref: v0.2.2
 
 dev_dependencies:
   test: ^1.5.3
