@@ -12,45 +12,41 @@ class LocalResourceMock extends Mock implements CustomLocalResource {}
 class ResourceMock extends Mock implements LocalResource<String> {}
 
 void main() {
-  var serviceLocator = CoreServiceLocator();
-
+  var _serviceLocator = CoreServiceLocator();
+  var successResponse =
+      '{"count":964,"next":"https://pokeapi.co/api/v2/pokemon?offset=20&limit=20","previous":null,"results":[{"name":"bulbasaur","url":"https://pokeapi.co/api/v2/pokemon/1/"},{"name":"raticate","url":"https://pokeapi.co/api/v2/pokemon/20/"}]}';
+  var _localResource = LocalResourceMock();
+  var _resource = ResourceMock();
   group('Pokemon Repo Test', () {
     CoreServiceLocator.instance.reset();
+
+    // mock write cache
+    when(_resource.write(any)).thenAnswer((_) => Future.value(successResponse));
+    // mock local resource
+    when(_localResource.getResourceInstance(any)).thenReturn(_resource);
+    _serviceLocator.registerSingleton<CustomLocalResource>(_localResource);
+
     test('Test Get All Pokemon', () async {
       var api = PokemonRepo();
       api.client = MockClient((request) async {
-        return http.Response('', 200);
+        return http.Response(successResponse, 200);
       });
-      var res = await api.getRequest('pokemon');
-      expect(res, TypeMatcher<String>());
+      var res = await api.getAll();
+      expect(res, TypeMatcher<List<Pokemon>>());
     });
   });
 
   group('Pokemon API Test', () {
     CoreServiceLocator.instance.reset();
-    var localResource = LocalResourceMock();
-    var resource = ResourceMock();
-    when(resource.parser).thenReturn((content) {
-      return content;
-    });
-    when(localResource.getResourceInstance(any)).thenReturn(resource);
-    // when(localResource.getResourceInstance(any).parser)
-    //     .thenReturn((content) {});
-    serviceLocator.registerSingleton<CustomLocalResource>(localResource);
-    test('Test Success Network', () async {
-      var inputList = List<String>();
-      inputList.add(
-          '{"name":"bulbasaur","url":"https://pokeapi.co/api/v2/pokemon/1/"}');
-      var mockResult = json.encode({
-        "results": inputList,
-        "count": 0,
-        "next": "",
-        "previous": "",
-      });
-
+    // mock write cache
+    when(_resource.write(any)).thenAnswer((_) => Future.value(successResponse));
+    // mock local resource
+    when(_localResource.getResourceInstance(any)).thenReturn(_resource);
+    _serviceLocator.registerSingleton<CustomLocalResource>(_localResource);
+    test('Success - Network', () async {
       var api = PokemonRepo();
       api.client = MockClient((request) async {
-        return http.Response(mockResult, 200);
+        return http.Response(successResponse, 200);
       });
       var res = await api.getRequest(
         'pokemon',
@@ -60,7 +56,7 @@ void main() {
       expect(res, TypeMatcher<String>());
     });
 
-    test('Test Failed Network', () {
+    test('Failed - Network', () {
       var api = PokemonRepo();
       api.client = MockClient((request) async {
         return http.Response(
@@ -68,7 +64,37 @@ void main() {
                 {'results': '', 'count': 0, 'next': '', 'previous': ''}),
             500);
       });
-      expect(api.getRequest('pokemon'),
+      expect(api.getRequest('pokemon', forceReload: true),
+          throwsA(const TypeMatcher<NonSuccessResponseException>()));
+    });
+
+    test('Success - Failed Network Cache Valid', () async {
+      /// mock cache
+      when(_resource.get()).thenAnswer((_) => Future.value(successResponse));
+
+      var api = PokemonRepo();
+      api.client = MockClient((request) async {
+        return http.Response(
+            json.encode(
+                {'results': '', 'count': 0, 'next': '', 'previous': ''}),
+            500);
+      });
+      expect(await api.getRequest('pokemon', forceReload: true),
+          TypeMatcher<String>());
+    });
+
+    test('Failed - Failed Network Cache Invalid', () async {
+      /// cache invalid
+      when(_resource.get()).thenAnswer((_) => null);
+
+      var api = PokemonRepo();
+      api.client = MockClient((request) async {
+        return http.Response(
+            json.encode(
+                {'results': '', 'count': 0, 'next': '', 'previous': ''}),
+            500);
+      });
+      expect(api.getRequest('pokemon', forceReload: true),
           throwsA(const TypeMatcher<NonSuccessResponseException>()));
     });
   });
